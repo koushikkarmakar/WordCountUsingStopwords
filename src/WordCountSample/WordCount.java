@@ -122,7 +122,11 @@ public class WordCount extends Configured implements Tool {
             for (IntWritable count : counts) {
                 sum += count.get();
             }
-            context.write(word, new IntWritable(sum));
+            if(word.toString().contains("<")|| word.toString().contains("!") || word.toString().contains("/") || word.toString().contains("\"") || word.toString().contains("?") || word.toString().contains(">") || word.toString().contains(" ")) {
+                LOG.info("Skipping: " + word);
+            } else {
+                context.write(word, new IntWritable(sum));
+            }
         }
     }
 }
